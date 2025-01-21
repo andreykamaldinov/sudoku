@@ -1,4 +1,4 @@
-export const enum SudokuLevel {
+export enum SudokuLevel {
   BEGINNER = 'Beginner',
   INTERMEDIATE = 'Intermediate',
   HARD = 'Hard',
