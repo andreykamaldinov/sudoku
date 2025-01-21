@@ -13,10 +13,6 @@ const sudokuLevels: SudokuLevel[] = [
   SudokuLevel.HARD,
   SudokuLevel.EXPERT,
 ]
-
-const handleLevelChange = (level: SudokuLevel): void => {
-  store.changeSudokuLevel(level)
-}
 </script>
 
 <template>
@@ -25,7 +21,7 @@ const handleLevelChange = (level: SudokuLevel): void => {
     <BaseSelect
       :selected-item="sudokuLevel"
       :items="sudokuLevels"
-      @update:selected-item="handleLevelChange"
+      @update:selected-item="(level: SudokuLevel) => store.changeSudokuLevel(level)"
     />
   </div>
 </template>

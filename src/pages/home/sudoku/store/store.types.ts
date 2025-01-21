@@ -2,6 +2,10 @@ import type { SudokuLevel } from '@/pages/home/sudoku/sudoku-header/level/level.
 import type { CellType } from '@/pages/home/sudoku/sudoku-cell/sudoku-cell.types.ts'
 import type { AvailableDigits } from '@/pages/home/sudoku/available-digits/available-digits.types.ts'
 
+type LeaderBoard = {
+  [key in SudokuLevel]: number[]
+}
+
 export type Store = {
   hints: number
   sudokuLevel: SudokuLevel
@@ -14,4 +18,5 @@ export type Store = {
   isPaused: boolean
   hintCell: CellType | null
   isHintVisible: boolean
+  leaderBoards: LeaderBoard
 }

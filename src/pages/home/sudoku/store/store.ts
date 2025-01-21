@@ -18,6 +18,7 @@ const initialState: Store = {
   isPaused: false,
   hintCell: null,
   isHintVisible: false,
+  leaderBoards: JSON.parse(localStorage.getItem('leadersBoard') || '{}'),
 }
 
 export const useStore = defineStore('sudoku', {
@@ -86,10 +87,23 @@ export const useStore = defineStore('sudoku', {
       this.isFinished = true
       this.isPaused = true
       this.score = this.score - this.timeSpent
+      this.updateLeaderBoard()
     },
 
     setPause() {
       this.isPaused = !this.isPaused
+    },
+
+    updateLeaderBoard() {
+      if (!this.score) return
+      const currentBoard = this.leaderBoards[this.sudokuLevel] || []
+
+      this.leaderBoards[this.sudokuLevel] = [...currentBoard, this.score].sort((a, b) => b - a)
+      this.saveToLocalStorage()
+    },
+
+    saveToLocalStorage() {
+      localStorage.setItem('leadersBoard', JSON.stringify(this.leaderBoards))
     },
   },
 })
