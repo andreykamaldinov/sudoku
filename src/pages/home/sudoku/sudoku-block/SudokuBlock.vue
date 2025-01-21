@@ -13,8 +13,14 @@ const onInput = (cell: CellType, event: Event): void => {
 
   if (filteredValue.length > 1) {
     filteredValue = filteredValue.slice(0, 1)
+    input.value = filteredValue
   }
+
   const value = parseFloat(filteredValue)
+
+  if (cell.guess === value) {
+    return
+  }
   if (Number.isNaN(value)) {
     input.value = ''
     return

@@ -38,7 +38,7 @@ const startGame = (): void => {
     <button
       v-if="isFinished"
       class="flex items-center bg-black text-white p-2 rounded ml-auto"
-      @click="store.startGame()"
+      @click="startGame"
     >
       Start new game
     </button>
