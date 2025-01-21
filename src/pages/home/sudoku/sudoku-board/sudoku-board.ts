@@ -1,7 +1,7 @@
-import { createCell } from './sudoku-cell.ts'
-import type { SudokuLevel } from '@/pages/home/sudoku/sudoku-header/level/level.enum'
-import type { CellType } from './sudoku.types.ts'
-import { sudokuVisibleRanges } from '@/pages/home/sudoku/utils/sudoku.consts'
+import { createCell } from '../sudoku-cell/sudoku-cell.ts'
+import type { SudokuLevel } from '@/pages/home/sudoku/sudoku-header/level/level.enum.ts'
+import type { CellType } from '../sudoku-cell/sudoku-cell.types.ts'
+import { sudokuVisibleRanges } from './sudoku-board.consts.ts'
 
 export function createSudokuBoard(rank: SudokuLevel): CellType[][] {
   const size = 9

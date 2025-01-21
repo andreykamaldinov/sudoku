@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { isCellRight, makeGuess } from '@/pages/home/sudoku/utils/sudoku-cell.ts'
-import { useSudokuStore } from '@/pages/home/sudoku/store/sudoku.store.ts'
-import type { CellType } from '@/pages/home/sudoku/utils/sudoku.types.ts'
+import { isCellRight, makeGuess } from '@/pages/home/sudoku/sudoku-cell/sudoku-cell.ts'
+import { useStore } from '@/pages/home/sudoku/store/store.ts'
 import { storeToRefs } from 'pinia'
+import type { CellType } from '@/pages/home/sudoku/sudoku-cell/sudoku-cell.types.ts'
 
-const store = useSudokuStore()
+const store = useStore()
 const { sudokuBlock, isStarted, isCompleted, isPaused } = storeToRefs(store)
 
 const onInput = (cell: CellType, event: Event): void => {
@@ -15,7 +15,7 @@ const onInput = (cell: CellType, event: Event): void => {
     filteredValue = filteredValue.slice(0, 1)
   }
   const value = parseFloat(filteredValue)
-  if (isNaN(value)) {
+  if (Number.isNaN(value)) {
     input.value = ''
     return
   }

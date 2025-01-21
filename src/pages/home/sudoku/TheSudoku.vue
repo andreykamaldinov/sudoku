@@ -1,9 +1,18 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
+
 import LeadersBoard from '@/pages/home/sudoku/leaders-board/LeadersBoard.vue'
 import SudokuHeader from '@/pages/home/sudoku/sudoku-header/SudokuHeader.vue'
-import AvailableDigits from '@/pages/home/sudoku/available-digits/AvailableDigits.vue'
-import HintMessage from '@/pages/home/sudoku/sudoku-header/hint/hint-message/hint-message.vue'
-import SudokuBlock from '@/pages/home/sudoku/sudoku-block/SudokuBlock.vue'
+
+const AvailableDigits = defineAsyncComponent(
+  () => import('@/pages/home/sudoku/available-digits/AvailableDigits.vue'),
+)
+const HintMessage = defineAsyncComponent(
+  () => import('@/pages/home/sudoku/sudoku-header/hint/hint-message/hint-message.vue'),
+)
+const SudokuBlock = defineAsyncComponent(
+  () => import('@/pages/home/sudoku/sudoku-block/SudokuBlock.vue'),
+)
 </script>
 
 <template>

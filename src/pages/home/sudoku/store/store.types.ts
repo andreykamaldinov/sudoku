@@ -1,19 +1,8 @@
 import type { SudokuLevel } from '@/pages/home/sudoku/sudoku-header/level/level.enum.ts'
+import type { CellType } from '@/pages/home/sudoku/sudoku-cell/sudoku-cell.types.ts'
+import type { AvailableDigits } from '@/pages/home/sudoku/available-digits/available-digits.types.ts'
 
-export type AvailableDigits = {
-  digit: number
-  disabled: boolean
-}
-export type CellType = {
-  value: number
-  guess: number | null
-  row: number
-  col: number
-  isVisible: boolean
-  isError: boolean
-}
-
-export type SudokuStore = {
+export type Store = {
   hints: number
   sudokuLevel: SudokuLevel
   sudokuBlock: CellType[][]

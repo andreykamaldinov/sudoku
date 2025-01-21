@@ -1,17 +1,13 @@
 <script setup lang="ts">
 import IconBulb from '@/shared/icons/IconBulb.vue'
-import { useSudokuStore } from '@/pages/home/sudoku/store/sudoku.store.ts'
-import { ref } from 'vue'
-import { SudokuScore } from '@/pages/home/sudoku/sudoku-header/score/score.enum.ts'
+import { useStore } from '@/pages/home/sudoku/store/store.ts'
 import { storeToRefs } from 'pinia'
 
-const store = useSudokuStore()
+const store = useStore()
 const { hints } = storeToRefs(store)
 
-const minusHintScore = ref(SudokuScore.HINT_PENALTY)
-
 const showHint = (): void => {
-  store.useHint(minusHintScore.value++)
+  store.showHint()
 }
 </script>
 

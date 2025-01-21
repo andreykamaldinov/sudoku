@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useSudokuStore } from '@/pages/home/sudoku/store/sudoku.store.ts'
+import { useStore } from '@/pages/home/sudoku/store/store.ts'
 import { storeToRefs } from 'pinia'
 
-const store = useSudokuStore()
+const store = useStore()
 const { availableDigits, isStarted, isDigitDisabled } = storeToRefs(store)
 </script>
 

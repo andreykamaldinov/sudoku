@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import IconStart from '@/shared/icons/IconStart.vue'
 import IconPause from '@/shared/icons/IconPause.vue'
-import { useSudokuStore } from '@/pages/home/sudoku/store/sudoku.store.ts'
+import { useStore } from '@/pages/home/sudoku/store/store.ts'
 import { onMounted, onUnmounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 
-const store = useSudokuStore()
+const store = useStore()
 const { timeSpent, isPaused, isStarted, isFinished } = storeToRefs(store)
 
 let interval: ReturnType<typeof setInterval>

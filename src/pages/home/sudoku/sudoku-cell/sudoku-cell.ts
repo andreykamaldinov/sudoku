@@ -1,4 +1,4 @@
-import type { CellType } from './sudoku.types.ts'
+import type { CellType } from './sudoku-cell.types.ts'
 
 export function createCell(value: number, row: number, col: number, isVisible: boolean): CellType {
   return {

@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import TheHint from '@/pages/home/sudoku/sudoku-header/hint/TheHint.vue'
-import TheLevel from '@/pages/home/sudoku/sudoku-header/level/TheLevel.vue'
-import TheScore from '@/pages/home/sudoku/sudoku-header/score/TheScore.vue'
-import TheTimer from '@/pages/home/sudoku/sudoku-header/timer/TheTimer.vue'
-import { useSudokuStore } from '@/pages/home/sudoku/store/sudoku.store.ts'
+import { defineAsyncComponent } from 'vue'
+import { useStore } from '@/pages/home/sudoku/store/store.ts'
 import { storeToRefs } from 'pinia'
+import TheLevel from '@/pages/home/sudoku/sudoku-header/level/TheLevel.vue'
 
-const store = useSudokuStore()
+const TheHint = defineAsyncComponent(
+  () => import('@/pages/home/sudoku/sudoku-header/hint/TheHint.vue'),
+)
+const TheScore = defineAsyncComponent(
+  () => import('@/pages/home/sudoku/sudoku-header/score/TheScore.vue'),
+)
+const TheTimer = defineAsyncComponent(
+  () => import('@/pages/home/sudoku/sudoku-header/timer/TheTimer.vue'),
+)
+
+const store = useStore()
 const { isStarted, isFinished } = storeToRefs(store)
 
 const startGame = (): void => {
