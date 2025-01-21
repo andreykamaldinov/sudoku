@@ -21,13 +21,15 @@ const onInput = (cell: CellType, event: Event): void => {
   if (cell.guess === value) {
     return
   }
+
   if (Number.isNaN(value)) {
     input.value = ''
     return
   }
+  store.recordMove(cell, value)
 
   makeGuess(cell, value)
-  if (cell.value !== value) {
+  if (cell.isError) {
     store.scorePenalty()
   } else {
     store.scoreSuccess()
