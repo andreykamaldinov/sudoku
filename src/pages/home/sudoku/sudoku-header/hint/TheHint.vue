@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import IconBulb from '@/shared/icons/IconBulb.vue'
+import { useStore } from '@/pages/home/sudoku/store/store.ts'
+import { storeToRefs } from 'pinia'
 
-const hints = 10
+const store = useStore()
+const { hints } = storeToRefs(store)
+
+const showHint = (): void => {
+  store.showHint()
+}
 </script>
 
 <template>
-  <div class="flex items-center"><IconBulb class="size-4" /> Hint ({{ hints }})</div>
+  <button class="flex items-center" @click="showHint">
+    <IconBulb class="size-4" /> Hint ({{ hints }})
+  </button>
 </template>

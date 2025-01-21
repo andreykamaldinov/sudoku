@@ -7,6 +7,7 @@ type SelectProps = {
 }
 
 const { selectedItem, items } = defineProps<SelectProps>()
+const emit = defineEmits(['update:selectedItem'])
 
 const selected = ref<string>(selectedItem)
 const open = ref(false)
@@ -18,6 +19,7 @@ const toggleDropdown = (): void => {
 const selectItem = (option: string): void => {
   selected.value = option
   toggleDropdown()
+  emit('update:selectedItem', option)
 }
 
 watch(
