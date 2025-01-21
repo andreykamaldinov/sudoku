@@ -1,1 +1,0 @@
-import{d as s,u as t,s as r,o as a,c as n,t as c,a as p}from"./index-D65hahSH.js";const i=s({__name:"TheScore",setup(u){const e=t(),{score:o}=r(e);return(_,l)=>(a(),n("div",null,"Score: "+c(p(o)),1))}});export{i as default};
