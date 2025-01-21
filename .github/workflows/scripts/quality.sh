@@ -4,7 +4,7 @@ set -e
 
 bun lint
 
-#bun run test:unit
+bun run test
 
 bun run build
 
