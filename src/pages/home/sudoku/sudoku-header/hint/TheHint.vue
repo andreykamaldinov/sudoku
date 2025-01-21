@@ -5,14 +5,10 @@ import { storeToRefs } from 'pinia'
 
 const store = useStore()
 const { hints } = storeToRefs(store)
-
-const showHint = (): void => {
-  store.showHint()
-}
 </script>
 
 <template>
-  <button class="flex items-center" @click="showHint">
+  <button class="flex items-center" @click="store.showHint()">
     <IconBulb class="size-4" /> Hint ({{ hints }})
   </button>
 </template>

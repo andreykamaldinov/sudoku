@@ -46,7 +46,7 @@ const startGame = (): void => {
     <button
       v-else
       class="flex items-center bg-black text-white p-2 rounded ml-auto"
-      @click="store.startGame()"
+      @click="startGame"
     >
       {{ isStarted ? 'Reset game' : 'Start game' }}
     </button>
