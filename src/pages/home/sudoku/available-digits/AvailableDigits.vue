@@ -1,22 +1,25 @@
 <script setup lang="ts">
-const availableDigits = Array.from({ length: 10 }, (_, i) => ({
-  digit: i,
-  disabled: false,
-}))
+import { useSudokuStore } from '@/pages/home/sudoku/store/sudoku.store.ts'
+import { storeToRefs } from 'pinia'
+
+const store = useSudokuStore()
+const { availableDigits, isStarted, isDigitDisabled } = storeToRefs(store)
 </script>
 
 <template>
-  <div class="flex flex-col justify-center gap-2">
-    <span>Available Digits:</span>
+  <div v-if="isStarted" class="flex flex-col justify-center gap-2">
+    <span class="text-lg text-black font-medium">Available Digits:</span>
     <div class="flex flex-wrap gap-2.5">
-      <button
+      <span
         v-for="digitObj in availableDigits"
         :key="digitObj.digit"
-        class="flex justify-center py-2 px-3 items-center border border-solid font-bold border-black text-dark cursor-pointer hover:dark:bg-gray-100 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed"
-        :disabled="digitObj.disabled"
+        :class="[
+          'flex justify-center py-2 px-3.5 items-center border border-solid font-bold border-black text-dark',
+          { 'bg-gray-100 text-gray-600': isDigitDisabled(digitObj.digit) },
+        ]"
       >
         {{ digitObj.digit }}
-      </button>
+      </span>
     </div>
   </div>
 </template>

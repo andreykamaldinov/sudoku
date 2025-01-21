@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const score = 500
+import { useSudokuStore } from '@/pages/home/sudoku/store/sudoku.store.ts'
+import { storeToRefs } from 'pinia'
+
+const store = useSudokuStore()
+const { score } = storeToRefs(store)
 </script>
 
 <template>

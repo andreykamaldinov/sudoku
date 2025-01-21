@@ -1,22 +1,53 @@
 <script setup lang="ts">
-const blocks = Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => null))
+import { isCellRight, makeGuess } from '@/pages/home/sudoku/utils/sudoku-cell.ts'
+import { useSudokuStore } from '@/pages/home/sudoku/store/sudoku.store.ts'
+import type { CellType } from '@/pages/home/sudoku/utils/sudoku.types.ts'
+import { storeToRefs } from 'pinia'
+
+const store = useSudokuStore()
+const { sudokuBlock, isStarted, isCompleted, isPaused } = storeToRefs(store)
+
+const onInput = (cell: CellType, event: Event): void => {
+  const input = event.target as HTMLInputElement
+  let filteredValue = input.value.replace(/[^1-9]/g, '')
+
+  if (filteredValue.length > 1) {
+    filteredValue = filteredValue.slice(0, 1)
+  }
+  const value = parseFloat(filteredValue)
+  if (isNaN(value)) {
+    input.value = ''
+    return
+  }
+
+  makeGuess(cell, value)
+  if (cell.value !== value) {
+    store.scorePenalty()
+  } else {
+    store.scoreSuccess()
+    if (isCompleted.value) {
+      store.finishGame()
+    }
+  }
+}
 </script>
 
 <template>
-  <div class="w-fit mob:w-full grid grid-cols-3 border border-black">
-    <div
-      v-for="(block, blockIndex) in blocks"
-      :key="blockIndex"
-      class="size-36 mob:w-full grid grid-cols-3 border border-gray-500"
-    >
+  <div v-if="isStarted" class="flex flex-col border-2 border-black h-[440px] max-w-[440px]">
+    <div v-for="(row, rowIndex) in sudokuBlock" :key="rowIndex" class="flex w-full h-full">
       <input
-        v-for="(cellValue, cellIndex) in block"
+        v-for="(cell, cellIndex) in row"
         :key="cellIndex"
-        class="sudoku-cell text-center text-lg font-bold border border-gray-300 outline-none"
         type="number"
-        min="1"
-        max="9"
-        :value="cellValue"
+        :disabled="cell.isVisible || isCellRight(cell) || isPaused"
+        :value="(cell.isVisible && cell.value) || (!cell.isVisible && cell.guess)"
+        :class="[
+          'text-center text-lg font-bold border border-gray-300 outline-none disabled:cursor-not-allowed w-full h-full',
+          cell.isVisible ? 'bg-gray-200' : '',
+          cell.isError ? 'bg-red-200' : '',
+          isCellRight(cell) ? 'bg-green-400' : '',
+        ]"
+        @input="onInput(cell, $event)"
       />
     </div>
   </div>

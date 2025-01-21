@@ -22,17 +22,13 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run:
-          bun i
+        run: bun i
 
       - name: Build sudoku app
-        run:
-          bun run build
+        run: bun run build
 
       - name: Deploy demo
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist/
-
-
