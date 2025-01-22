@@ -98,7 +98,7 @@ export const useStore = defineStore('sudoku', {
             if (!this.score) return;
             const currentBoard = this.leaderBoards[this.sudokuLevel] || [];
 
-            this.leaderBoards[this.sudokuLevel] = [...currentBoard, this.score].sort((a, b) => b - a);
+            this.leaderBoards[this.sudokuLevel] = [...currentBoard, this.score].sort((a, b) => b - a).slice(0, 3);
             this.saveToLocalStorage();
         },
 

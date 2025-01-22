@@ -2,10 +2,11 @@
 import IconCup from '@/shared/icons/IconCup.vue';
 import { useStore } from '@/pages/home/sudoku/store/store.ts';
 import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
 const store = useStore();
 const { leaderBoards } = storeToRefs(store);
-const isEmpty = Object.keys(leaderBoards.value).length;
+const isEmpty = computed(() => Object.keys(leaderBoards.value).length);
 </script>
 
 <template>
