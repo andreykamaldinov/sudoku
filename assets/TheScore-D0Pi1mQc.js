@@ -1,1 +1,0 @@
-import{d as o,u as t,s as r,o as c,c as n,t as a,a as _}from"./index-D3rMyTRy.js";const i={class:"flex items-center min-w-20"},u=o({__name:"TheScore",setup(m){const e=t(),{score:s}=r(e);return(p,f)=>(c(),n("div",i,"Score: "+a(_(s)),1))}});export{u as default};
