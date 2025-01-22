@@ -7,37 +7,37 @@ import type { CellType } from '@/pages/home/sudoku/sudoku-cell/sudoku-cell.types
 const store = useStore();
 const { sudokuBlock, isStarted, isCompleted, isPaused } = storeToRefs(store);
 
-const onInput = (cell: CellType, event: Event): void => {
+const onInput = (cell: CellType, cellIndex: number, rowIndex: number, event: Event): void => {
     const input = event.target as HTMLInputElement;
-    let filteredValue = input.value.replace(/[^1-9]/g, '');
+    input.value = input.value.replace(/[^1-9]/g, '').charAt(0);
 
-    if (filteredValue.length > 1) {
-        filteredValue = filteredValue.slice(0, 1);
-        input.value = filteredValue;
-    }
-
-    const value = parseFloat(filteredValue);
-
+    const value = parseFloat(input.value);
     if (cell.guess === value) {
         return;
     }
-
     if (Number.isNaN(value)) {
         input.value = '';
         return;
     }
-    store.recordMove(cell, value);
-
+    store.recordMove(cell, value, rowIndex, cellIndex);
     makeGuess(cell, value);
-    if (cell.isError) {
-        store.scorePenalty();
-    } else {
-        store.scoreSuccess();
-        if (isCompleted.value) {
-            store.finishGame();
-        }
+    updateScore(cell);
+    if (!cell.isError) {
+        store.removeMoveFromHistory(rowIndex, cellIndex);
+    }
+    if (isCompleted.value) {
+        store.finishGame();
     }
 };
+
+const updateScore = (cell: CellType): void => {
+    if (cell.guess === cell.value) {
+        store.scoreSuccess();
+    } else {
+        store.scorePenalty();
+    }
+};
+
 const onKeyDown = (event: KeyboardEvent): void => {
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
         event.preventDefault();
@@ -52,7 +52,7 @@ const onKeyDown = (event: KeyboardEvent): void => {
                 v-for="(cell, cellIndex) in row"
                 :key="cellIndex"
                 type="number"
-                :disabled="cell.isVisible || isCellRight(cell) || isPaused"
+                :disabled="cell.isVisible || isCellRight(cell) || isPaused || cell.isHint"
                 :value="(cell.isVisible && cell.value) || (!cell.isVisible && cell.guess)"
                 :class="[
                     'sudoku-cell text-center text-lg font-bold border border-gray-300 outline-none disabled:cursor-not-allowed w-full h-full',
@@ -61,7 +61,7 @@ const onKeyDown = (event: KeyboardEvent): void => {
                     cell.isHint ? 'bg-blue-400' : '',
                     isCellRight(cell) ? 'bg-green-400' : '',
                 ]"
-                @input="onInput(cell, $event)"
+                @input="onInput(cell, cellIndex, rowIndex, $event)"
                 @keydown="onKeyDown"
             />
         </div>

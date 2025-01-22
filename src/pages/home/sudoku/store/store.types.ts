@@ -11,6 +11,8 @@ type MoveHistory = {
     previousValue: number | null;
     previousState: boolean;
     newValue: number | null;
+    cellIndex: number;
+    rowIndex: number;
 };
 
 export type Store = {
