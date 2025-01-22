@@ -42,7 +42,7 @@ const onInput = (cell: CellType, event: Event): void => {
 
 <template>
     <div v-if="isStarted" class="flex flex-col border-2 border-black h-[440px] max-w-[440px]">
-        <div v-for="(row, rowIndex) in sudokuBlock" :key="rowIndex" class="flex w-full h-full">
+        <div v-for="(row, rowIndex) in sudokuBlock" :key="rowIndex" class="flex w-full h-full sudoku-row">
             <input
                 v-for="(cell, cellIndex) in row"
                 :key="cellIndex"
@@ -50,7 +50,7 @@ const onInput = (cell: CellType, event: Event): void => {
                 :disabled="cell.isVisible || isCellRight(cell) || isPaused"
                 :value="(cell.isVisible && cell.value) || (!cell.isVisible && cell.guess)"
                 :class="[
-                    'text-center text-lg font-bold border border-gray-300 outline-none disabled:cursor-not-allowed w-full h-full',
+                    'sudoku-cell text-center text-lg font-bold border border-gray-300 outline-none disabled:cursor-not-allowed w-full h-full',
                     cell.isVisible ? 'bg-gray-200' : '',
                     cell.isError ? 'bg-red-200' : '',
                     isCellRight(cell) ? 'bg-green-400' : '',
@@ -60,3 +60,13 @@ const onInput = (cell: CellType, event: Event): void => {
         </div>
     </div>
 </template>
+
+<style scoped>
+.sudoku-row:nth-child(3n):not(:last-child) {
+    border-bottom: 2px solid black;
+}
+
+.sudoku-cell:nth-child(3n):not(:last-child) {
+    border-right: 2px solid black;
+}
+</style>
