@@ -9,26 +9,19 @@ const { sudokuBlock, isStarted, isCompleted, isPaused } = storeToRefs(store);
 
 const onInput = (cell: CellType, cellIndex: number, rowIndex: number, event: Event): void => {
     const input = event.target as HTMLInputElement;
-    let filteredValue = input.value.replace(/[^1-9]/g, '');
+    input.value = input.value.replace(/[^1-9]/g, '').charAt(0);
 
-    if (filteredValue.length > 1) {
-        filteredValue = filteredValue.slice(0, 1);
-        input.value = filteredValue;
-    }
-
-    const value = parseFloat(filteredValue);
-
+    const value = parseFloat(input.value);
     if (cell.guess === value) {
         return;
     }
-
     if (Number.isNaN(value)) {
         input.value = '';
         return;
     }
     store.recordMove(cell, value, rowIndex, cellIndex);
-    updateScore(cell);
     makeGuess(cell, value);
+    updateScore(cell);
     if (!cell.isError) {
         store.removeMoveFromHistory(rowIndex, cellIndex);
     }
@@ -38,9 +31,6 @@ const onInput = (cell: CellType, cellIndex: number, rowIndex: number, event: Eve
 };
 
 const updateScore = (cell: CellType): void => {
-    if (cell.guess) {
-        return;
-    }
     if (cell.guess === cell.value) {
         store.scoreSuccess();
     } else {
