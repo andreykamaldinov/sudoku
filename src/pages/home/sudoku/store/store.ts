@@ -112,7 +112,7 @@ export const useStore = defineStore('sudoku', {
             localStorage.setItem('leadersBoard', JSON.stringify(this.leaderBoards));
         },
 
-        recordMove(cell: CellType, newValue: number | null) {
+        recordMove(cell: CellType, newValue: number | null, rowIndex: number, cellIndex: number) {
             if (this.currentMoveIndex < this.moveHistory.length - 1) {
                 this.moveHistory = this.moveHistory.slice(0, this.currentMoveIndex + 1);
             }
@@ -122,8 +122,17 @@ export const useStore = defineStore('sudoku', {
                 previousValue: cell.guess,
                 previousState: cell.isError,
                 newValue,
+                rowIndex,
+                cellIndex,
             });
             this.currentMoveIndex++;
+        },
+
+        removeMoveFromHistory(rowIndex: number, cellIndex: number) {
+            this.moveHistory = this.moveHistory.filter(
+                (move) => move.rowIndex !== rowIndex || move.cellIndex !== cellIndex,
+            );
+            this.currentMoveIndex = Math.min(this.currentMoveIndex, this.moveHistory.length - 1);
         },
 
         undo() {
