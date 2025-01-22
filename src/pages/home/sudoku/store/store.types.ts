@@ -6,6 +6,13 @@ type LeaderBoard = {
     [key in SudokuLevel]: number[];
 };
 
+type MoveHistory = {
+    cell: CellType;
+    previousValue: number | null;
+    previousState: boolean;
+    newValue: number | null;
+};
+
 export type Store = {
     hints: number;
     sudokuLevel: SudokuLevel;
@@ -19,4 +26,6 @@ export type Store = {
     hintCell: CellType | null;
     isHintVisible: boolean;
     leaderBoards: LeaderBoard;
+    moveHistory: MoveHistory[];
+    currentMoveIndex: number;
 };

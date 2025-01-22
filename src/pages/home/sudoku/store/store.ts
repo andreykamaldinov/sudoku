@@ -19,6 +19,8 @@ const initialState: Store = {
     hintCell: null,
     isHintVisible: false,
     leaderBoards: JSON.parse(localStorage.getItem('leadersBoard') || '{}'),
+    moveHistory: [],
+    currentMoveIndex: -1,
 };
 
 export const useStore = defineStore('sudoku', {
@@ -38,6 +40,8 @@ export const useStore = defineStore('sudoku', {
             const usedHintsCount = 10 - state.hints;
             return SudokuScore.HINT_PENALTY + usedHintsCount;
         },
+        canUndo: (state): boolean => state.currentMoveIndex >= 0,
+        canRedo: (state): boolean => state.currentMoveIndex < state.moveHistory.length - 1,
     },
     actions: {
         changeSudokuLevel(level: SudokuLevel) {
@@ -94,12 +98,49 @@ export const useStore = defineStore('sudoku', {
             if (!this.score) return;
             const currentBoard = this.leaderBoards[this.sudokuLevel] || [];
 
-            this.leaderBoards[this.sudokuLevel] = [...currentBoard, this.score].sort((a, b) => b - a).slice(0, 3);
+            this.leaderBoards[this.sudokuLevel] = [...currentBoard, this.score].sort((a, b) => b - a);
             this.saveToLocalStorage();
         },
 
         saveToLocalStorage() {
             localStorage.setItem('leadersBoard', JSON.stringify(this.leaderBoards));
+        },
+
+        recordMove(cell: CellType, newValue: number | null) {
+            if (this.currentMoveIndex < this.moveHistory.length - 1) {
+                this.moveHistory = this.moveHistory.slice(0, this.currentMoveIndex + 1);
+            }
+
+            this.moveHistory.push({
+                cell,
+                previousValue: cell.guess,
+                previousState: cell.isError,
+                newValue,
+            });
+            this.currentMoveIndex++;
+        },
+
+        undo() {
+            if (!this.canUndo) return;
+
+            const move = this.moveHistory[this.currentMoveIndex];
+            this.applyMove(move.cell, move.previousValue, move.previousState);
+
+            this.currentMoveIndex--;
+        },
+
+        redo() {
+            if (!this.canRedo) return;
+
+            this.currentMoveIndex++;
+
+            const move = this.moveHistory[this.currentMoveIndex];
+            this.applyMove(move.cell, move.newValue, move.newValue !== move.cell.value);
+        },
+
+        applyMove(cell: CellType, value: number | null, isError: boolean) {
+            cell.guess = value;
+            cell.isError = isError;
         },
     },
 });
