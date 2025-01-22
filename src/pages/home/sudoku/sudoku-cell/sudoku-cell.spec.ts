@@ -12,6 +12,7 @@ describe('Sudoku Cell Functions', () => {
             col: 0,
             isVisible: true,
             isError: false,
+            isHint: false,
         });
     });
 
@@ -25,6 +26,7 @@ describe('Sudoku Cell Functions', () => {
             col: 7,
             isVisible: false,
             isError: false,
+            isHint: false,
         });
     });
 
