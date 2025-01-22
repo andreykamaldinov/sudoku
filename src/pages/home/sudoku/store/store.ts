@@ -76,11 +76,15 @@ export const useStore = defineStore('sudoku', {
             this.isFinished = false;
             this.isStarted = true;
             this.isPaused = false;
+            this.moveHistory = [];
+            this.isHintVisible = false;
+            this.currentMoveIndex = -1;
             this.score = SudokuScore.TOTAL_POINTS;
         },
 
         resetGame() {
             this.isStarted = false;
+            this.hintCell = null;
         },
 
         finishGame() {
