@@ -38,10 +38,15 @@ const onInput = (cell: CellType, event: Event): void => {
         }
     }
 };
+const onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        event.preventDefault();
+    }
+};
 </script>
 
 <template>
-    <div v-if="isStarted" class="flex flex-col border-2 border-black h-[440px] max-w-[440px]">
+    <div v-if="isStarted" class="flex flex-col border-2 border-black h-[440px] w-[440px] mob:w-full">
         <div v-for="(row, rowIndex) in sudokuBlock" :key="rowIndex" class="flex w-full h-full sudoku-row">
             <input
                 v-for="(cell, cellIndex) in row"
@@ -53,9 +58,11 @@ const onInput = (cell: CellType, event: Event): void => {
                     'sudoku-cell text-center text-lg font-bold border border-gray-300 outline-none disabled:cursor-not-allowed w-full h-full',
                     cell.isVisible ? 'bg-gray-200' : '',
                     cell.isError ? 'bg-red-200' : '',
+                    cell.isHint ? 'bg-blue-400' : '',
                     isCellRight(cell) ? 'bg-green-400' : '',
                 ]"
                 @input="onInput(cell, $event)"
+                @keydown="onKeyDown"
             />
         </div>
     </div>

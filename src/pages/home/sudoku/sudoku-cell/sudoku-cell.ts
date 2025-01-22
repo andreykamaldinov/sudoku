@@ -7,6 +7,7 @@ export function createCell(value: number, row: number, col: number, isVisible: b
         row,
         col,
         isVisible,
+        isHint: false,
         isError: false,
     };
 }

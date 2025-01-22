@@ -5,4 +5,5 @@ export type CellType = {
     col: number;
     isVisible: boolean;
     isError: boolean;
+    isHint: boolean;
 };

@@ -16,8 +16,6 @@ const initialState: Store = {
     isFinished: false,
     timeSpent: 0,
     isPaused: false,
-    hintCell: null,
-    isHintVisible: false,
     leaderBoards: JSON.parse(localStorage.getItem('leadersBoard') || '{}'),
     moveHistory: [],
     currentMoveIndex: -1,
@@ -33,9 +31,6 @@ export const useStore = defineStore('sudoku', {
             (digit: number): boolean => {
                 return state.sudokuBlock.every((row) => row.some((cell) => cell.guess === digit));
             },
-        hint: (state): CellType | null => {
-            return state.sudokuBlock.flat().filter((cell) => !cell.isVisible && cell.guess !== cell.value)[0] || null;
-        },
         minusHintScore: (state): number => {
             const usedHintsCount = 10 - state.hints;
             return SudokuScore.HINT_PENALTY + usedHintsCount;
@@ -49,16 +44,25 @@ export const useStore = defineStore('sudoku', {
         },
 
         showHint() {
-            if (this.hints && !this.isHintVisible && this.hint) {
+            if (this.hints && !this.isFinished) {
                 this.score -= this.minusHintScore;
                 this.hints -= 1;
-                this.hintCell = this.hint;
-                this.isHintVisible = true;
-            }
-        },
 
-        hideHint() {
-            this.isHintVisible = false;
+                const availableCell = this.sudokuBlock
+                    .flat()
+                    .filter((cell) => !cell.isVisible && cell.guess !== cell.value);
+                if (!availableCell.length) {
+                    return;
+                }
+                const randomIndex = Math.floor(Math.random() * availableCell.length);
+                const hintCell = availableCell[randomIndex];
+
+                hintCell.isHint = true;
+                hintCell.guess = hintCell.value;
+                if (availableCell.length === 1) {
+                    this.finishGame();
+                }
+            }
         },
 
         scorePenalty() {
@@ -77,14 +81,12 @@ export const useStore = defineStore('sudoku', {
             this.isStarted = true;
             this.isPaused = false;
             this.moveHistory = [];
-            this.isHintVisible = false;
             this.currentMoveIndex = -1;
             this.score = SudokuScore.TOTAL_POINTS;
         },
 
         resetGame() {
             this.isStarted = false;
-            this.hintCell = null;
         },
 
         finishGame() {

@@ -7,9 +7,6 @@ import SudokuHeader from '@/pages/home/sudoku/sudoku-header/SudokuHeader.vue';
 const UndoRedo = defineAsyncComponent(() => import('@/pages/home/sudoku/undo-redo/UndoRedo.vue'));
 
 const AvailableDigits = defineAsyncComponent(() => import('@/pages/home/sudoku/available-digits/AvailableDigits.vue'));
-const HintMessage = defineAsyncComponent(
-    () => import('@/pages/home/sudoku/sudoku-header/hint/hint-message/hint-message.vue'),
-);
 const SudokuBlock = defineAsyncComponent(() => import('@/pages/home/sudoku/sudoku-block/SudokuBlock.vue'));
 </script>
 
@@ -17,7 +14,6 @@ const SudokuBlock = defineAsyncComponent(() => import('@/pages/home/sudoku/sudok
     <div class="flex justify-center w-full">
         <div class="flex flex-col justify-center items-center gap-5 px-5">
             <SudokuHeader />
-            <HintMessage />
             <div class="flex gap-10 w-full mob:flex-col">
                 <div class="flex flex-col gap-5">
                     <UndoRedo />
