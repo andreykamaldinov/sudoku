@@ -53,6 +53,7 @@ const onInput = (cell: CellType, event: Event): void => {
                     'sudoku-cell text-center text-lg font-bold border border-gray-300 outline-none disabled:cursor-not-allowed w-full h-full',
                     cell.isVisible ? 'bg-gray-200' : '',
                     cell.isError ? 'bg-red-200' : '',
+                    cell.isHint ? 'bg-blue-400' : '',
                     isCellRight(cell) ? 'bg-green-400' : '',
                 ]"
                 @input="onInput(cell, $event)"

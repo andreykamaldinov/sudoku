@@ -23,8 +23,6 @@ export type Store = {
     isFinished: boolean;
     timeSpent: number;
     isPaused: boolean;
-    hintCell: CellType | null;
-    isHintVisible: boolean;
     leaderBoards: LeaderBoard;
     moveHistory: MoveHistory[];
     currentMoveIndex: number;
