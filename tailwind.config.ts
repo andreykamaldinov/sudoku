@@ -1,18 +1,18 @@
-import { type Config } from 'tailwindcss'
+import { type Config } from 'tailwindcss';
 
 const tailwindConfig: Config = {
-  content: ['./index.html', './src/**/*.vue'],
-  theme: {
-    extend: {
-      screens: {
-        mob: { min: '1px', max: '700px' },
-      },
-      fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-      },
+    content: ['./index.html', './src/**/*.vue'],
+    theme: {
+        extend: {
+            screens: {
+                mob: { min: '1px', max: '700px' },
+            },
+            fontFamily: {
+                sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+        },
     },
-  },
-  plugins: [],
-}
+    plugins: [],
+};
 
-export default tailwindConfig
+export default tailwindConfig;
