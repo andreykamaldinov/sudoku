@@ -1,4 +1,4 @@
 export type AvailableDigits = {
-  digit: number
-  disabled: boolean
-}
+    digit: number;
+    disabled: boolean;
+};
