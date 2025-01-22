@@ -4,16 +4,19 @@ import { ref, watch } from 'vue';
 type SelectProps = {
     items: string[];
     selectedItem: string;
+    disabled?: boolean;
 };
 
-const { selectedItem, items } = defineProps<SelectProps>();
+const { selectedItem, items, disabled = false } = defineProps<SelectProps>();
 const emit = defineEmits(['update:selectedItem']);
 
 const selected = ref<string>(selectedItem);
 const open = ref(false);
 
 const toggleDropdown = (): void => {
-    open.value = !open.value;
+    if (!disabled) {
+        open.value = !open.value;
+    }
 };
 
 const selectItem = (option: string): void => {
@@ -34,12 +37,28 @@ watch(
 
 <template>
     <div class="relative w-full" :tabindex="0" @blur="open = false">
-        <div class="text-black cursor-pointer" @click="toggleDropdown">
-            {{ selected }}
+        <div
+            :class="[
+                'flex items-center text-black bg-gray-200 rounded-md p-2 gap-4',
+                { 'cursor-pointer': !disabled, 'cursor-not-allowed opacity-50': disabled },
+            ]"
+            @click="toggleDropdown"
+        >
+            <span>{{ selected }} </span>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4"
+            >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 9l-7.5 7.5L4.5 9" />
+            </svg>
         </div>
 
         <div
-            class="absolute left-0 right-0 bg-gray-200 text-black rounded-md shadow-md border border-gray-600 z-10 w-fit"
+            class="absolute left-0 right-0 bg-gray-200 text-black rounded-md shadow-md border border-gray-600 z-10 w-fit mt-1"
             :class="{ hidden: !open }"
         >
             <div

@@ -5,7 +5,7 @@ import { SudokuLevel } from './level.enum.ts';
 import { storeToRefs } from 'pinia';
 
 const store = useStore();
-const { sudokuLevel } = storeToRefs(store);
+const { sudokuLevel, isStarted } = storeToRefs(store);
 
 const sudokuLevels: SudokuLevel[] = [
     SudokuLevel.BEGINNER,
@@ -19,6 +19,7 @@ const sudokuLevels: SudokuLevel[] = [
     <div class="flex gap-1 items-center">
         Level:
         <BaseSelect
+            :disabled="isStarted"
             :selected-item="sudokuLevel"
             :items="sudokuLevels"
             @update:selected-item="(level: SudokuLevel) => store.changeSudokuLevel(level)"
