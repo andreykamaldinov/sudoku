@@ -31,14 +31,6 @@ export const useStore = defineStore('sudoku', {
             (digit: number): boolean => {
                 return state.sudokuBlock.every((row) => row.some((cell) => cell.guess === digit));
             },
-        hint: (state): void => {
-            const some =
-                state.sudokuBlock.flat().filter((cell) => !cell.isVisible && cell.guess !== cell.value)[0] || null;
-            if (some) {
-                some.guess = some.value;
-                some.isHint = true;
-            }
-        },
         minusHintScore: (state): number => {
             const usedHintsCount = 10 - state.hints;
             return SudokuScore.HINT_PENALTY + usedHintsCount;
@@ -56,18 +48,18 @@ export const useStore = defineStore('sudoku', {
                 this.score -= this.minusHintScore;
                 this.hints -= 1;
 
-                const availableRow = this.sudokuBlock
+                const availableCell = this.sudokuBlock
                     .flat()
                     .filter((cell) => !cell.isVisible && cell.guess !== cell.value);
-                if (availableRow.length === 0) {
+                if (!availableCell.length) {
                     return;
                 }
-                const randomIndex = Math.floor(Math.random() * availableRow.length);
-                const hintCell = availableRow[randomIndex];
+                const randomIndex = Math.floor(Math.random() * availableCell.length);
+                const hintCell = availableCell[randomIndex];
 
                 hintCell.isHint = true;
                 hintCell.guess = hintCell.value;
-                if (availableRow.length === 1) {
+                if (availableCell.length === 1) {
                     this.finishGame();
                 }
             }

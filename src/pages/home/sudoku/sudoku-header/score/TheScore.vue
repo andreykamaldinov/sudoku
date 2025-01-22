@@ -7,5 +7,5 @@ const { score } = storeToRefs(store);
 </script>
 
 <template>
-    <div>Score: {{ score }}</div>
+    <div class="flex items-center min-w-20">Score: {{ score }}</div>
 </template>
