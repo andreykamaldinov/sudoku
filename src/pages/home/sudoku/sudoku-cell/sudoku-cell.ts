@@ -18,5 +18,5 @@ export function makeGuess(cell: CellType, guess: number): void {
 }
 
 export function isCellRight(cell: CellType): boolean {
-    return !cell.isVisible && cell.guess === cell.value;
+    return !cell.isVisible && !cell.isHint && cell.guess === cell.value;
 }
