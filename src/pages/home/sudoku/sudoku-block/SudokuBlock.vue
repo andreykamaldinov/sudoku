@@ -38,11 +38,11 @@ const onInput = (cell: CellType, event: Event): void => {
         }
     }
 };
-// const onKeyDown = (event: KeyboardEvent): void => {
-//     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-//         event.preventDefault();
-//     }
-// };
+const onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        event.preventDefault();
+    }
+};
 </script>
 
 <template>
@@ -62,6 +62,7 @@ const onInput = (cell: CellType, event: Event): void => {
                     isCellRight(cell) ? 'bg-green-400' : '',
                 ]"
                 @input="onInput(cell, $event)"
+                @keydown="onKeyDown"
             />
         </div>
     </div>
