@@ -54,11 +54,14 @@ export const useStore = defineStore('sudoku', {
                 if (!availableCell.length) {
                     return;
                 }
+
                 const randomIndex = Math.floor(Math.random() * availableCell.length);
                 const hintCell = availableCell[randomIndex];
+                this.removeMoveFromHistory(hintCell.row, hintCell.col);
 
                 hintCell.isHint = true;
                 hintCell.guess = hintCell.value;
+                hintCell.isError = false;
                 if (availableCell.length === 1) {
                     this.finishGame();
                 }
